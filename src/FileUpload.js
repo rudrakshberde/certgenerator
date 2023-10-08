@@ -1,17 +1,11 @@
 import React from "react";
-import axios from "axios";
-import $ from "jquery";
-
 import readXlsxFile from "read-excel-file";
-import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
-
-import { saveAs } from "file-saver";
-import JSZip from "jszip";
-
+import generatePDF from "./tools/generatePDF";
+import hexToRgb from "./tools/hexToRgb";
+import downloadFiles from "./tools/downloadFiles";
 var values;
 var respon;
-var array,
-  longest,
+var longest,
   column = 0;
 var temparray = [];
 var x_cod = 300;
@@ -20,7 +14,6 @@ var fntsize = 50;
 var r = 0.95;
 var g = 0.1;
 var b = 0.1;
-var flpth;
 class FileUploader extends React.Component {
   constructor() {
     super();
@@ -39,6 +32,7 @@ class FileUploader extends React.Component {
   handleChange(event) {
     readXlsxFile(event.target.files[0]).then(function (rows) {
       values = rows;
+    console.log(rows)
     });
   }
 
@@ -51,14 +45,16 @@ class FileUploader extends React.Component {
     const input = document.querySelector("#file");
     const data = new FileReader();
     document.getElementById("editspace").style.display = "block";
+    console.log(input.files[0])
+    data.readAsArrayBuffer(input.files[0]);
     data.onload = function () {
       respon = data.result;
 
       analyze(values);
-
-      generatePDF(longest, 300, 300, fntsize, r, g, b);
+      generate(longest,longest, 300, 300, fntsize, r, g, b,respon);
     };
-    data.readAsArrayBuffer(input.files[0]);
+    
+    
   }
 
   resetFile() {
@@ -127,7 +123,7 @@ class FileUploader extends React.Component {
             <iframe
               src=""
               id="showpdf"
-              frameBorder="0"
+             
               className="iframes"
             ></iframe>
             <div className="edit-options">
@@ -205,83 +201,52 @@ class FileUploader extends React.Component {
     );
   }
 }
-var pdfDoc, pdfBytes;
-const generatePDF = async (name, xcod, ycod, fntsize, r, g, b) => {
-  var longestname = longest;
-  const exBytes = respon;
-  pdfDoc = await PDFDocument.load(exBytes);
-  const pages = pdfDoc.getPages();
-  const firstPage = pages[0];
-
-  const textWidth = name.length;
-  const textwidthMax = longestname.length;
-  if (textWidth < textwidthMax) {
-    for (let i = 0; i < Math.abs((textwidthMax - textWidth) / 2); i++) {
-      name = " " + name + " ";
-    }
-  }
-  const { width, height } = firstPage.getSize();
-
-  firstPage.drawText(name, {
-    x: xcod,
-    y: ycod,
-    size: fntsize,
-
-    color: rgb(r, g, b),
+const generate=(name,longest, xcod, ycod, fntsize, r, g, b,respon)=>{
+  generatePDF(name, longest,xcod, ycod, fntsize, r, g, b,respon).then((pdfUri) => {
+    document.querySelector("#showpdf").src = pdfUri.uri;
   });
+}
 
-  const uri = await pdfDoc.saveAsBase64({ dataUri: true });
-  document.querySelector("#showpdf").src = uri;
-  pdfBytes = await pdfDoc.save();
-};
+
 
 function customUp() {
   y_cod = y_cod + 15;
 
-  generatePDF(longest, x_cod, y_cod, fntsize, r, g, b);
+  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
 }
 function customDown() {
   y_cod = y_cod - 15;
 
-  generatePDF(longest, x_cod, y_cod, fntsize, r, g, b);
+  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
 }
 function customLeft() {
   x_cod = x_cod - 15;
 
-  generatePDF(longest, x_cod, y_cod, fntsize, r, g, b);
+  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
 }
 
 function customRight() {
   x_cod = x_cod + 15;
 
-  generatePDF(longest, x_cod, y_cod, fntsize, r, g, b);
+  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
 }
 
 const download = async (e) => {
-  e.preventDefault();
   document.getElementById("editspace").style.display = "none";
-
-  var zip = new JSZip();
-  var img = zip.folder("certificates");
-
-  for (let i = 0; i < values.length; i++) {
-    await generatePDF(values[i][0], x_cod, y_cod, fntsize, r, g, b);
-
-    img.file(values[i][0] + ".pdf", pdfBytes);
-  }
-
-  zip.generateAsync({ type: "blob" }).then(function (content) {
-    saveAs(content, "certificates.zip");
-  });
-};
+ downloadFiles(e,values,longest,x_cod,y_cod,fntsize,r,g,b,respon)
+}
 async function changecolor() {
   var hashcode = document.getElementById("color").value;
-  await hexToRgb(hashcode);
-  generatePDF(longest, x_cod, y_cod, fntsize, r, g, b);
+  var result=await hexToRgb(hashcode);
+  r=result.r
+  g=result.g
+  b=result.b
+  
+  generate=(longest, x_cod, y_cod, fntsize, r, g, b,respon);
 }
 function increaseFont() {
   fntsize = Number(document.getElementById("fntsize").value);
-  generatePDF(longest, x_cod, y_cod, fntsize, r, g, b);
+  generate(longest, x_cod, y_cod, fntsize, r, g, b,respon);
 }
 async function analyze(array) {
   temparray.splice(0, temparray.length);
@@ -292,15 +257,7 @@ async function analyze(array) {
     return b.length - a.length;
   })[0];
 }
-function hexToRgb(hex) {
-  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-  if (result) {
-    r = Number(parseInt(result[1], 16) / 255);
-    g = Number(parseInt(result[2], 16) / 255);
-    b = Number(parseInt(result[3], 16) / 255);
-  }
-  return null;
-}
+
 window.onload = function () {
   document.getElementById("editspace").style.display = "none";
 };
