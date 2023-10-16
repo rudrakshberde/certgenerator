@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/certgenerator/static/css/main.38225df7.css",
+    "main.js": "/certgenerator/static/js/main.614eb08a.js",
+    "static/js/787.7a167a10.chunk.js": "/certgenerator/static/js/787.7a167a10.chunk.js",
+    "static/media/image.jpg": "/certgenerator/static/media/image.b4888b2dd7df74cf8f74.jpg",
+    "index.html": "/certgenerator/index.html",
+    "main.38225df7.css.map": "/certgenerator/static/css/main.38225df7.css.map",
+    "main.614eb08a.js.map": "/certgenerator/static/js/main.614eb08a.js.map",
+    "787.7a167a10.chunk.js.map": "/certgenerator/static/js/787.7a167a10.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.38225df7.css",
+    "static/js/main.614eb08a.js"
+  ]
+}
