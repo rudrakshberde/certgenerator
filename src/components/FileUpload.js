@@ -1,8 +1,8 @@
 import React from "react";
 import readXlsxFile from "read-excel-file";
-import generatePDF from "./tools/generatePDF";
-import hexToRgb from "./tools/hexToRgb";
-import downloadFiles from "./tools/downloadFiles";
+import generatePDF from "../utils/generatePDF";
+import hexToRgb from "../utils/hexToRgb";
+import downloadFiles from "../utils/downloadFiles";
 var values;
 var respon;
 var longest,
@@ -117,86 +117,6 @@ class FileUploader extends React.Component {
           </button>
         </div>
 
-        <div className="container">
-          <section id="editspace">
-            <h5>Preview</h5>
-            <iframe
-              src=""
-              id="showpdf"
-             
-              className="iframes"
-            ></iframe>
-            <div className="edit-options">
-              <div className="form-group">
-                <button
-                  type="button"
-                  id="upbutton"
-                  className="btn btn-dark"
-                  onClick={customUp}
-                >
-                  up
-                </button>
-
-                <button
-                  type="button"
-                  id="leftbutton"
-                  className="btn btn-dark"
-                  onClick={customLeft}
-                >
-                  left
-                </button>
-
-                <button
-                  type="button"
-                  id="rightbutton"
-                  className="btn btn-dark"
-                  onClick={customRight}
-                >
-                  Right
-                </button>
-
-                <button
-                  type="button"
-                  id="downbutton"
-                  onClick={customDown}
-                  className="btn btn-dark"
-                >
-                  down
-                </button>
-              </div>
-              <div className="form-group">
-                <h4>choose colour</h4>
-                <input
-                  type="color"
-                  onChange={changecolor}
-                  id="color"
-                  className="form-control form-control-color"
-                ></input>
-              </div>
-
-              <div className="form-group">
-                <div className="row">
-                  <div className="form-group col-md-3">
-                    <h5>Font size:</h5>
-                    <input
-                      type="number"
-                      onInput={increaseFont}
-                      id="fntsize"
-                      className="form-control"
-                      placeholder="50"
-                    ></input>
-                  </div>
-                </div>
-              </div>
-
-              <div className="download-button">
-                <button onClick={download} className="btn btn-warning btn-lg">
-                  download
-                </button>
-              </div>
-            </div>
-          </section>
-        </div>
       </section>
     );
   }
@@ -209,27 +129,7 @@ const generate=(name,longest, xcod, ycod, fntsize, r, g, b,respon)=>{
 
 
 
-function customUp() {
-  y_cod = y_cod + 15;
 
-  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
-}
-function customDown() {
-  y_cod = y_cod - 15;
-
-  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
-}
-function customLeft() {
-  x_cod = x_cod - 15;
-
-  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
-}
-
-function customRight() {
-  x_cod = x_cod + 15;
-
-  generate(longest,longest, x_cod, y_cod, fntsize, r, g, b,respon);
-}
 
 const download = async (e) => {
   document.getElementById("editspace").style.display = "none";
