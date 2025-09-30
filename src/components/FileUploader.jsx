@@ -1,10 +1,17 @@
 import React from "react";
-import readXlsxFile from "read-excel-file";
+//import readXlsxFile from "read-excel-file";
 import generatePDF from "../utils/generatePDF";
 import hexToRgb from "../utils/hexToRgb";
 import downloadFiles from "../utils/downloadFiles";
+import {readPDFFile,readXlFile} from "../utils/readFilesHelper";
 
 const FileUpload= ()=>{
+    const mystyle = {
+        padding: "10px",
+  
+        margin: "10px",
+        marginLeft: "25%",
+      };
     return(
         <section>
         <h3>CERTIFICATE GENERATOR</h3>
@@ -20,7 +27,7 @@ const FileUpload= ()=>{
               name="file"
               className="form-control"
               id="file"
-              onChange={}
+              onChange={readPDFFile}
             />
           </div>
         </div>
@@ -34,7 +41,7 @@ const FileUpload= ()=>{
               name="excel"
               id="excel"
               className="form-control"
-              onChange={this.handleChange}
+              onChange={readXlFile}
             />
             <small>
               note:the first column of the excel sheet should contain all the
@@ -46,7 +53,6 @@ const FileUpload= ()=>{
           <button
             type="submit"
             className="btn btn-dark"
-            onClick={() => this.onSubmit()}
           >
             Upload File
           </button>

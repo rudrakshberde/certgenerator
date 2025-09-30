@@ -1,8 +1,9 @@
 import React from "react";
-import readXlsxFile from "read-excel-file";
+import readXlFile from "read-excel-file";
 import generatePDF from "../utils/generatePDF";
 import hexToRgb from "../utils/hexToRgb";
 import downloadFiles from "../utils/downloadFiles";
+import certificatePreview from "./CertificatePreview";
 var values;
 var respon;
 var longest,
@@ -111,7 +112,7 @@ class FileUploader extends React.Component {
           <button
             type="submit"
             className="btn btn-dark"
-            onClick={() => this.onSubmit()}
+            
           >
             Upload File
           </button>

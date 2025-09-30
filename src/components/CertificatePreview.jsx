@@ -18,7 +18,6 @@ const certificatePreview =()=>{
                   type="button"
                   id="upbutton"
                   className="btn btn-dark"
-                  onClick={customUp}
                 >
                   up
                 </button>
@@ -27,7 +26,6 @@ const certificatePreview =()=>{
                   type="button"
                   id="leftbutton"
                   className="btn btn-dark"
-                  onClick={customLeft}
                 >
                   left
                 </button>
@@ -36,7 +34,6 @@ const certificatePreview =()=>{
                   type="button"
                   id="rightbutton"
                   className="btn btn-dark"
-                  onClick={customRight}
                 >
                   Right
                 </button>
@@ -44,7 +41,6 @@ const certificatePreview =()=>{
                 <button
                   type="button"
                   id="downbutton"
-                  onClick={customDown}
                   className="btn btn-dark"
                 >
                   down
@@ -54,7 +50,6 @@ const certificatePreview =()=>{
                 <h4>choose colour</h4>
                 <input
                   type="color"
-                  onChange={changecolor}
                   id="color"
                   className="form-control form-control-color"
                 ></input>
@@ -66,7 +61,6 @@ const certificatePreview =()=>{
                     <h5>Font size:</h5>
                     <input
                       type="number"
-                      onInput={increaseFont}
                       id="fntsize"
                       className="form-control"
                       placeholder="50"
@@ -76,7 +70,7 @@ const certificatePreview =()=>{
               </div>
 
               <div className="download-button">
-                <button onClick={download} className="btn btn-warning btn-lg">
+                <button  className="btn btn-warning btn-lg">
                   download
                 </button>
               </div>
@@ -86,4 +80,5 @@ const certificatePreview =()=>{
     );
 
 }
+
 export default certificatePreview;
