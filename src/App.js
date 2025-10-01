@@ -8,7 +8,10 @@ function App() {
  // const {CertBase64} = useContext(FileContext);
   return (
     <section>
- <FileUpload/>   
+      <FileContextProvider>
+      <FileUpload/>
+      </FileContextProvider>
+    
     </section>
   );
 }
