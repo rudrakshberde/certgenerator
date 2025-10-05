@@ -1,5 +1,4 @@
 
-
 import readXlsxFile from "read-excel-file";
 
 export const readXlFile=(e)=>{
@@ -7,10 +6,11 @@ export const readXlFile=(e)=>{
     
     if(e.target.files[0]!=null ){
         const extention = e.target.files[0].name.split(".").pop().toLowerCase();
-        if(extention == "xls"||extention == "xlsx"){
+        if(extention === "xls"||extention === "xlsx"){
             readXlsxFile(e.target.files[0]).then(function (rows) {
-                const values = rows;
-              console.log(rows)
+                const values = rows; 
+              console.log(rows);
+              return values;
               });
         }
         else{
@@ -29,9 +29,8 @@ export const readPDFFile = (e) =>{
 
     if(e.target.files[0]!=null ){
         const extention = e.target.files[0].name.split(".").pop().toLowerCase();
-        if(extention == "pdf"){
-            const reader = new FileReader();
-
+        if(extention === "pdf"){
+         return e.target.files[0]
 
         }
         else{

@@ -1,84 +1,75 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect } from "react";
+import { useState, useContext } from "react";
+import { FileContext } from "../contexts/FileContexts";
+import Draggable from "react-draggable";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf"; // Uncomment if you want PDF export
+import * as pdfjsLib from "pdfjs-dist";
+pdfjsLib.GlobalWorkerOptions.workerSrc = `${process.env.PUBLIC_URL}/pdf.worker.mjs`;
+const CertificatePreview =()=>{
+  const {certBase64} = useContext(FileContext);
+  const [pdfImage, setPdfImage] = useState(null);
+useEffect(() => {
 
-const certificatePreview =()=>{
+
+    const reader = new FileReader();
+
+    reader.onload = async function () {
+      try {
+        const typedarray = new Uint8Array(this.result);
+        const pdf = await pdfjsLib.getDocument({ data: typedarray }).promise;
+        const page = await pdf.getPage(1);
+
+        const viewport = page.getViewport({ scale: 2 });
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        await page.render({ canvasContext: context, viewport }).promise;
+
+        setPdfImage(canvas.toDataURL("image/png"));
+      } catch (err) {
+        console.error("Error rendering PDF:", err);
+        alert("Failed to render PDF. Check console for details.");
+      }
+    };
+
+    reader.readAsArrayBuffer(certBase64);
+
+  
+}, []);
+
+  
     return(
         <div className="container">
           <section id="editspace">
             <h5>Preview</h5>
-            <iframe
-              src=""
-              id="showpdf"
-             
-              className="iframes"
-            ></iframe>
             <div className="edit-options">
-              <div className="form-group">
-                <button
-                  type="button"
-                  id="upbutton"
-                  className="btn btn-dark"
-                >
-                  up
-                </button>
-
-                <button
-                  type="button"
-                  id="leftbutton"
-                  className="btn btn-dark"
-                >
-                  left
-                </button>
-
-                <button
-                  type="button"
-                  id="rightbutton"
-                  className="btn btn-dark"
-                >
-                  Right
-                </button>
-
-                <button
-                  type="button"
-                  id="downbutton"
-                  className="btn btn-dark"
-                >
-                  down
-                </button>
-              </div>
-              <div className="form-group">
-                <h4>choose colour</h4>
-                <input
-                  type="color"
-                  id="color"
-                  className="form-control form-control-color"
-                ></input>
-              </div>
-
-              <div className="form-group">
-                <div className="row">
-                  <div className="form-group col-md-3">
-                    <h5>Font size:</h5>
-                    <input
-                      type="number"
-                      id="fntsize"
-                      className="form-control"
-                      placeholder="50"
-                    ></input>
-                  </div>
-                </div>
-              </div>
-
-              <div className="download-button">
+             
+            </div>
+                {pdfImage && (
+        <div
+          className="relative border shadow-lg"
+          style={{
+            backgroundImage: `url(${pdfImage})`,
+            backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            width: "800px",
+            height: "600px", // ensure preview is visible
+          }}
+        ></div>)}
+         <div className="download-button">
                 <button  className="btn btn-warning btn-lg">
                   download
                 </button>
               </div>
-            </div>
           </section>
+          
         </div>
     );
 
 }
 
-export default certificatePreview;
+export default CertificatePreview;

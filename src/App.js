@@ -1,15 +1,19 @@
 import { React, useContext } from "react";
 import FileUpload from "./components/FileUploader";
 import { FileContextProvider, FileContext } from "./contexts/FileContexts";
-
-var sessvar = localStorage.getItem("filepath");
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import CertificatePreview from "./components/CertificatePreview";
 
 function App() {
- // const {CertBase64} = useContext(FileContext);
   return (
     <section>
       <FileContextProvider>
-      <FileUpload/>
+      <Router basename="/certgenerator">
+        <Routes >
+          <Route path="/" element={<FileUpload />} />
+          <Route path="/preview" element={<CertificatePreview />} />
+        </Routes>
+      </Router>
       </FileContextProvider>
     
     </section>
