@@ -6,7 +6,6 @@ import downloadFiles from "../utils/downloadFiles";
 import {readPDFFile,readXlFile} from "../utils/readFilesHelper";
 import { FileContext } from "../contexts/FileContexts";
 import { useContext, useState } from "react";
-import CertificatePreview from "./CertificatePreview";
 import { useNavigate } from "react-router-dom";
 const FileUpload= ()=>{
     const mystyle = {

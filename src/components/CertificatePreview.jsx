@@ -34,8 +34,11 @@ useEffect(() => {
         alert("Failed to render PDF. Check console for details.");
       }
     };
+    if(certBase64){
+      reader.readAsArrayBuffer(certBase64);
+    }
 
-    reader.readAsArrayBuffer(certBase64);
+    
 
   
 }, []);
@@ -49,6 +52,7 @@ useEffect(() => {
              
             </div>
                 {pdfImage && (
+                  <div>
         <div
           className="relative border shadow-lg"
           style={{
@@ -59,7 +63,24 @@ useEffect(() => {
             width: "800px",
             height: "600px", // ensure preview is visible
           }}
-        ></div>)}
+        ></div>
+        <Draggable>
+            <div
+              style={{
+                fontSize: "32px",
+                fontWeight: "bold",
+                color: "black",
+                cursor: "move",
+                position: "absolute",
+                top: "50px",
+                left: "50px",
+              }}
+            >
+              {"example text"}
+            </div>
+          </Draggable>
+          </div>
+          )}
          <div className="download-button">
                 <button  className="btn btn-warning btn-lg">
                   download
