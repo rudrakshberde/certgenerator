@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
-import { FileContext } from "../contexts/FileContexts";
+import { FileContext } from "../../contexts/FileContexts";
 import Draggable from "react-draggable";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf"; // Uncomment if you want PDF export

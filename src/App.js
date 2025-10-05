@@ -1,8 +1,8 @@
 import { React, useContext } from "react";
-import FileUpload from "./components/FileUploader";
+import FileUpload from "./components/pages/FileUploader";
 import { FileContextProvider, FileContext } from "./contexts/FileContexts";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import CertificatePreview from "./components/CertificatePreview";
+import CertificatePreview from "./components/pages/CertificatePreview";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 //import TopNavigationBar from "./components/TopNavigationBar";
 

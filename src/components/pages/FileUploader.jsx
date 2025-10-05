@@ -1,10 +1,10 @@
 import React from "react";
 //import readXlsxFile from "read-excel-file";
-import generatePDF from "../utils/generatePDF";
-import hexToRgb from "../utils/hexToRgb";
-import downloadFiles from "../utils/downloadFiles";
-import {readPDFFile,readXlFile} from "../utils/readFilesHelper";
-import { FileContext } from "../contexts/FileContexts";
+import generatePDF from "../../utils/generatePDF";
+import hexToRgb from "../../utils/hexToRgb";
+import downloadFiles from "../../utils/downloadFiles";
+import {readPDFFile,readXlFile} from "../../utils/readFilesHelper";
+import { FileContext } from "../../contexts/FileContexts";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 const FileUpload= ()=>{

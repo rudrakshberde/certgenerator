@@ -3,7 +3,7 @@ import readXlFile from "read-excel-file";
 import generatePDF from "../utils/generatePDF";
 import hexToRgb from "../utils/hexToRgb";
 import downloadFiles from "../utils/downloadFiles";
-import certificatePreview from "./CertificatePreview";
+import certificatePreview from "./pages/CertificatePreview";
 var values;
 var respon;
 var longest,
